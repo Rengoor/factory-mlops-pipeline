@@ -7,3 +7,4 @@ numpy
 python-multipart
 evidently
 opencv-python-headless
+mlflow
