@@ -1,21 +1,24 @@
 FROM python:3.10-slim
 
-# System dependencies for OpenCV and image operations
-RUN apt-get update && apt-get install -y \
-    libglib2.0-0 \
-    && rm -rf /var/lib/apt/lists/*
-
 WORKDIR /app
 
-# Copy requirements and install Python packages
-COPY requirements.txt .
-RUN pip install --no-cache-dir -r requirements.txt
+# 1. Install system dependencies + C compilation tools
+RUN apt-get update && apt-get install -y --no-install-recommends \
+    build-essential \
+    libgl1 \
+    libglib2.0-0 \
+    libxcb1 \
+    && rm -rf /var/lib/apt-get/lists/*
 
-# Copy application file and exported ONNX model
+COPY requirements.txt .
+
+# 2. Re-enable local BuildKit cache + add timeout protection
+RUN --mount=type=cache,target=/root/.cache/pip \
+    pip install --default-timeout=1000 -r requirements.txt
+
+# 3. Application Code
 COPY app.py .
+COPY retrain.py .
 COPY models/yolov8n.onnx ./models/yolov8n.onnx
 
-EXPOSE 8000
-
-# Start the FastAPI application using Uvicorn
 CMD ["uvicorn", "app:app", "--host", "0.0.0.0", "--port", "8000"]
