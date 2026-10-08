@@ -2,3 +2,6 @@ venv/
 *.onnx
 *.pt
 .DS_Store
+mlflow.db
+mlruns/**
+models/**
