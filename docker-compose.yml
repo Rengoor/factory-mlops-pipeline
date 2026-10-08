@@ -1,0 +1,21 @@
+version: '3.8'
+
+services:
+  # Container 1: MLflow Tracking Server
+  mlflow_server:
+    image: ghcr.io/mlflow/mlflow:v2.11.0
+    container_name: mlflow_server
+    ports:
+      - "5001:5000"
+    command: mlflow server --host 0.0.0.0 --port 5000
+
+  # Container 2: FastAPI Inference Engine
+  inference_api:
+    build: .
+    container_name: edge_camera_api
+    ports:
+      - "8000:8000"
+    environment:
+      - MLFLOW_TRACKING_URI=http://mlflow_server:5000
+    depends_on:
+      - mlflow_server
