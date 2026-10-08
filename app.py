@@ -6,6 +6,8 @@ import io
 import pandas as pd
 from evidently import Report
 from evidently.presets import DataDriftPreset
+import os
+import subprocess
 
 app = FastAPI(title="Factory-Grade Industrial Camera Pipeline")
 
@@ -92,13 +94,19 @@ async def process_stream_frame(file: UploadFile = File(...)):
         CURRENT_STREAM_BUFFER = []
 
         if drift_detected:
-            # Here is where the auto-retraining pipeline gets called!
             print(
-                "\n ALERT: Factory Lighting or Quality Drift Detected! Initiating Auto-Retain Webhook...\n"
+                "\n🚨 ALERT: Data Drift Detected! Triggering retraining pipeline...\n"
             )
+
+            # Run retrain.py in background, ensuring it connects to containerized MLflow
+            env = os.environ.copy()
+            env["MLFLOW_TRACKING_URI"] = "http://mlflow_server:5000"
+
+            subprocess.Popen(["python3", "retrain.py"], env=env)
+
             return {
                 "status": "DRIFT_DETECTED",
-                "action": "TRIGGER_RETRAIN_WORKFLOW",
+                "action": "RETRAINING_TRIGGERED",
                 "metrics": frame_metrics,
             }
 
