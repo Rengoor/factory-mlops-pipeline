@@ -5,3 +5,4 @@ venv/
 mlflow.db
 mlruns/**
 models/**
+__pycache__/**
