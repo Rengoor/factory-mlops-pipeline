@@ -8,8 +8,11 @@ from evidently import Report
 from evidently.presets import DataDriftPreset
 import os
 import subprocess
+from prometheus_fastapi_instrumentator import Instrumentator
 
 app = FastAPI(title="Factory-Grade Industrial Camera Pipeline")
+
+Instrumentator().instrument(app).expose(app)
 
 SESSION = ort.InferenceSession("models/yolov8n.onnx")
 
