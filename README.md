@@ -94,16 +94,17 @@ Open Grafana at `http://localhost:3000` to view real-time latency and throughput
 
 ---
 
-## Container Registry & Artifacts (Upcoming)
+## Project Status & Roadmap
 
-Docker container images for the `inference_api` edge deployment will be automatically built and pushed to **GitHub Packages (GHCR)** via CI/CD automation.
+This project is actively being developed to demonstrate robust MLOps engineering and system integration principles. 
 
----
+### Implemented & Operational
+- 4-Service Docker Compose Architecture: Fully containerized setup linking FastAPI, MLflow, Prometheus, and Grafana.
+- Dynamic Model Generation: On-the-fly ONNX model export during CI execution, maintaining a "code-only" repository policy.
+- Automated CI/CD Pipeline: GitHub Actions configuration running automated linting (`Flake8`), code formatting (`Black`), artifact generation, and integration testing (`Pytest`).
+- System Observability: Prometheus scraping custom application metrics exposed via FastAPI, visualized through Grafana dashboards.
 
-## Roadmap & What's Next
-
-- [x] FastAPI Edge Inference Engine with OpenCV rendering
-- [x] MLflow Integration for artifact tracking & retraining loops
-- [x] System Observability Stack (Prometheus + Grafana provisioning)
-- [x] GitHub Actions CI/CD: Automated testing (`pytest`), code formatting (`flake8`), and container build verification on push.
-- [ ] **GitHub Packages (GHCR):** Automatic Docker image release publishing on tagged releases.
+### Planned / In Progress / Not Tested
+- Video Frame Simulation & Inference: Real-time stream handling and frame processing pipeline.
+- Data Drift Monitoring: Expanding Prometheus and Grafana metrics to capture feature and prediction drift.
+- Automated Retraining Loop: End-to-end integration of background retraining triggers and model challenge/promotion criteria via MLflow.
