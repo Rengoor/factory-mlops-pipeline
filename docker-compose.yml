@@ -1,21 +1,51 @@
-version: '3.8'
-
 services:
-  # Container 1: MLflow Tracking Server
+  inference_api:
+    build: .
+    container_name: edge_camera_api
+    ports:
+      - "8000:8000"
+    networks:
+      - mlops_network
+    depends_on:
+      - mlflow_server
+
   mlflow_server:
     image: ghcr.io/mlflow/mlflow:v2.11.0
     container_name: mlflow_server
     ports:
       - "5001:5000"
     command: mlflow server --host 0.0.0.0 --port 5000
+    networks:
+      - mlops_network
 
-  # Container 2: FastAPI Inference Engine
-  inference_api:
-    build: .
-    container_name: edge_camera_api
+  prometheus:
+    image: prom/prometheus:v2.45.0
+    container_name: prometheus_server
+    volumes:
+      - ./prometheus.yml:/etc/prometheus/prometheus.yml
     ports:
-      - "8000:8000"
-    environment:
-      - MLFLOW_TRACKING_URI=http://mlflow_server:5000
+      - "9090:9090"
+    networks:
+      - mlops_network
     depends_on:
-      - mlflow_server
+      - inference_api
+
+  grafana:
+    image: grafana/grafana:10.0.0
+    container_name: grafana_dashboard
+    ports:
+      - "3000:3000"
+    environment:
+      - GF_SECURITY_ADMIN_PASSWORD=admin
+    volumes:
+      - ./grafana/provisioning/datasources:/etc/grafana/provisioning/datasources
+      - ./grafana/provisioning/dashboards:/etc/grafana/provisioning/dashboards
+    networks:
+      - mlops_network
+    depends_on:
+      - prometheus
+
+# Declare the top-level network here
+networks:
+  mlops_network:
+    driver: bridge
