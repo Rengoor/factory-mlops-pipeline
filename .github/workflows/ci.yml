@@ -50,8 +50,13 @@ jobs:
       - name: Run Unit & Integration Tests (Pytest)
         run: pytest
 
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v3
+        with:
+          driver: docker-container
+
       - name: Verify Docker Compose Build with Cache
-        uses: docker/bake-action@v5
+        uses: docker/bake-action@v4
         with:
           files: docker-compose.yml
           load: true
