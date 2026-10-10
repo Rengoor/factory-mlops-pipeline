@@ -8,3 +8,4 @@ python-multipart
 evidently
 opencv-python-headless
 mlflow
+prometheus-fastapi-instrumentator
