@@ -65,21 +65,26 @@ An end-to-end MLOps pipeline for real-time defect detection on edge camera strea
 git clone https://github.com/Rengoor/factory-mlops-pipeline.git
 cd factory-mlops-pipeline
 ```
+### Step 2: Run 
+Import the model:
+```bash
+python export_model.py
+```
 
-### Step 2: Spin Up the Stack
+### Step 3: Spin Up the Stack
 Run the entire containerized pipeline with a single command:
 ```bash
 docker compose up -d --build
 ```
 
-### Step 3: Verify Running Services
+### Step 4: Verify Running Services
 Run `docker ps` to verify all 4 services are healthy:
 * **FastAPI Inference Engine:** [http://localhost:8000/docs](http://localhost:8000/docs)
 * **MLflow Tracking Server:** [http://localhost:5001](http://localhost:5001)
 * **Prometheus Server:** [http://localhost:9090](http://localhost:9090)
 * **Grafana Monitoring Dashboard:** [http://localhost:3000](http://localhost:3000) *(Credentials: `admin` / `admin`)*
 
-### Step 4: Simulate Factory Camera Stream
+### Step 5: Simulate Factory Camera Stream
 In a local Python environment, run the frame generator script to stream simulated video frames to the API:
 ```bash
 pip install requests
