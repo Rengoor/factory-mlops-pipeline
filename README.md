@@ -65,7 +65,7 @@ An end-to-end MLOps pipeline for real-time defect detection on edge camera strea
 git clone https://github.com/Rengoor/factory-mlops-pipeline.git
 cd factory-mlops-pipeline
 ```
-### Step 2: Run 
+### Step 2: Get the model
 Import the model:
 ```bash
 python export_model.py
@@ -94,16 +94,16 @@ Open Grafana at `http://localhost:3000` to view real-time latency and throughput
 
 ---
 
-## 📦 Container Registry & Artifacts (Upcoming)
+## Container Registry & Artifacts (Upcoming)
 
 Docker container images for the `inference_api` edge deployment will be automatically built and pushed to **GitHub Packages (GHCR)** via CI/CD automation.
 
 ---
 
-## 🔮 Roadmap & What's Next
+## Roadmap & What's Next
 
 - [x] FastAPI Edge Inference Engine with OpenCV rendering
 - [x] MLflow Integration for artifact tracking & retraining loops
 - [x] System Observability Stack (Prometheus + Grafana provisioning)
-- [ ] **GitHub Actions CI/CD:** Automated testing (`pytest`), code formatting (`flake8`), and container build verification on push.
+- [x] GitHub Actions CI/CD: Automated testing (`pytest`), code formatting (`flake8`), and container build verification on push.
 - [ ] **GitHub Packages (GHCR):** Automatic Docker image release publishing on tagged releases.
