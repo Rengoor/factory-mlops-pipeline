@@ -62,7 +62,7 @@ An end-to-end MLOps pipeline for real-time defect detection on edge camera strea
 
 ### Step 1: Clone the Repository
 ```bash
-git clone https://github.com/YOUR_USERNAME/factory-mlops-pipeline.git
+git clone https://github.com/Rengoor/factory-mlops-pipeline.git
 cd factory-mlops-pipeline
 ```
 
